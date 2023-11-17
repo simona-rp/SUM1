@@ -18,6 +18,5 @@ def getDF(path):
   return pd.DataFrame.from_dict(df, orient='index')
 
 # read data from a gzip-compressed JSON file to create DataFrame
-# please input your own file downloaded in the function
-data = getDF('C:/Users/TheemaMakkapan/Downloads/AMAZON_FASHION.json.gz')
+data = getDF('AMAZON_FASHION.json.gz')
 print(data)
