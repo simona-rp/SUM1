@@ -20,3 +20,6 @@ def getDF(path):
 # read data from a gzip-compressed JSON file to create DataFrame
 data = getDF('AMAZON_FASHION.json.gz')
 print(data)
+
+
+# test
