@@ -19,6 +19,8 @@ import json
 #
 # # read data from a gzip-compressed JSON file to create DataFrame
 # #data = getDF('AMAZON_FASHION.json.gz')
+# data = getDF('AMAZON_FASHION.json.gz')
+# print(data)
 
 # Load json file
 # Loading a json file keeps the list/dictionary quality, and we can use json_normalize on it
@@ -33,3 +35,4 @@ reviews.columns = reviews.columns.str.replace(r'\W+', '', regex=True)
 reviews.columns = reviews.columns.str.lower()
 pd.set_option('display.max_columns', None)
 print(reviews)
+
