@@ -32,3 +32,12 @@ reviews.columns = reviews.columns.str.lower()
 pd.set_option('display.max_columns', None)
 print(reviews)
 
+# Inspecting the data , Check for any nulls values
+reviews.isnull().sum()  
+# Inspecting some of the reviews
+# https://www.kaggle.com/code/currie32/summarizing-text-with-amazon-reviews
+for i in range(5):
+    print("Review #",i+1)
+    print(reviews.summary[i])
+    print(reviews.reviewtext[i])
+    print()
