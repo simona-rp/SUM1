@@ -68,39 +68,6 @@ plt.xlabel('overall scores')
 plt.ylabel('Frequency')
 plt.show()
 
-# Calculate the length of the reviewtext and plot the distribution
-# Create a new column 'text_length' representing the length of 'text_column'
-reviews['reviewtextlength'] = reviews['reviewtext'].apply(len)
-plt.figure(figsize=(8, 6))
-sns.histplot(reviews['reviewtextlength'], kde=True, color='skyblue')
-plt.title('Distribution of Reviewtext length')
-plt.xlabel('Number of words')
-plt.ylabel('Frequency')
-plt.show()
-
-# Plot number of words in box to show the outliers
-plt.figure(figsize=(8, 6))
-sns.boxplot(x='reviewtextlength', data=reviews, palette="Set2")
-plt.title('Box Plot of outliers for reviewtextlength')
-plt.show()
-
-# Delete outliers on reviewtextlength
-# Define a function to remove outliers based on IQR
-def remove_outliers_iqr(data_frame, column):
-    Q1 = data_frame[column].quantile(0.25)
-    Q3 = data_frame[column].quantile(0.75)
-    IQR = Q3 - Q1
-
-    lower_bound = Q1 - 1.5 * IQR
-    upper_bound = Q3 + 1.5 * IQR
-
-    return data_frame[(data_frame[column] >= lower_bound) & (data_frame[column] <= upper_bound)]
-
-# Specify the column for outlier removal
-column_to_check = 'reviewtextlength'
-
-# Remove outliers based on IQR
-reviews = remove_outliers_iqr(reviews, column_to_check)
 # Plot correlation heatmap
 correlation_matrix = reviews.corr()
 # Plot the correlation matrix as a heatmap
