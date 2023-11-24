@@ -40,4 +40,49 @@ for i in range(5):
     print("Review #",i+1)
     print(reviews.summary[i])
     print(reviews.reviewtext[i])
-    print()
+    print()    
+    
+
+# summmary of the dataset
+reviews.describe()
+reviews.shape
+
+# Drop the selected null columns
+reviews = reviews.drop(columns=['vote','stylecolor','stylesize','image','stylemetaltype','stylesizename',
+                        'stylestyle','stylelength','styleteamname','stylestylename','styleformat','stylepackagequantity','stylematerial','styleitemdisplaylength','stylemetaltype','styleitempackagequantity',
+                        'stylescentname','styleshape','styleshape','stylegemtype'])
+
+# Remove null values
+reviews = reviews.dropna() 
+    
+# check the unique, Remove duplicate rows in place
+reviews.drop_duplicates(inplace=True)
+
+# Plot the distribution of overall scores
+import matplotlib.pyplot as plt
+import seaborn as sns
+plt.figure(figsize=(8, 6))
+sns.histplot(reviews['overall'], kde=True, color='skyblue')
+plt.title('Distribution of overall')
+plt.xlabel('overall scores')
+plt.ylabel('Frequency')
+plt.show()
+
+# Plot correlation heatmap
+correlation_matrix = reviews.corr()
+# Plot the correlation matrix as a heatmap
+plt.figure(figsize=(8, 6))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
+plt.title('Correlation Matrix')
+plt.show()
+
+# Plot the word card in wordcloud
+from wordcloud import WordCloud
+# Generate a word cloud reviewtext
+reviews['reviewtext']= reviews['reviewtext'].astype('str')
+wordcloud = WordCloud(width=800, height=400, background_color='white').generate(' '.join(reviews['reviewtext']))
+# Display the generated word cloud using matplotlib
+plt.figure(figsize=(10, 5))
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis('off')  # Turn off axis labels
+plt.show()
