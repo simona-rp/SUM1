@@ -85,10 +85,17 @@ reviews.drop_duplicates(inplace=True)
 # plt.show()
 
 # Text preparation
-import nltk
+import nltk, numpy as np
 from nltk.stem import WordNetLemmatizer
+import random
+
 # Clean and tokenize
-text = pd.DataFrame(reviews['reviewtext'])
+# Setting the seed for python random numbers
+random.seed(13747)
+# Setting the seed for numpy-generated random numbers
+np.random.seed(37298)
+text = pd.DataFrame(reviews['reviewtext'].sample(round(0.2*len(reviews))))
+print(text)
 # Transform into string object
 text['reviewtext'] = text['reviewtext'].astype(str)
 # Make text lowercase to remove stopwords
@@ -146,11 +153,23 @@ text['text'] = text['filtered_tokens'].apply(tokens_to_string)
 print(text['text'])
  
 # Create inferences with Mistral 7b
-import random
-import numpy as np
 # Setting the seed for python random numbers
 random.seed(13747)
 # Setting the seed for numpy-generated random numbers
 np.random.seed(37298)
 sample_inf = text.sample(3000)
 print(sample_inf)
+
+from transformers import pipeline
+# Load the Mistral 7B model for summarization
+summarizer = pipeline("summarization", model="mistralai/mistral-7b-v0.1")
+
+# Define your input text
+input_text = text['text'].values.tolist()
+print(input_text)
+
+# Generate a summary using Mistral 7B
+generated_summary = summarizer(input_text, max_length=150, min_length=50, length_penalty=2.0, num_beams=4)
+
+# Print the generated summary
+print(generated_summary[0]['summary_text'])
